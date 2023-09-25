@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::prefix('stripe')->group(function () {
+    Route::post('create-session', [\App\Http\Controllers\Api\StripeController::class, "sessions"]);
+});
