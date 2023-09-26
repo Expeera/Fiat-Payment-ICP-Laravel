@@ -37,7 +37,7 @@ class GenerateApiToken extends Command
 
             File::put($envFilePath, $envFileContents);
 
-            $this->info('API token has been generated and updated in .env file.');
+            $this->info('API token has been generated ('.$apiToken.') and updated in .env file.');
         } else {
             $this->error('.env file not found.');
         }
