@@ -29,10 +29,37 @@ class CreateSessionRequest extends FormRequest
             'currency' => 'required',
             'unit_amount' => 'required',
             'quantity' => 'required',
-            'success_url' => 'required|url',
+//            'success_url' => 'required|url',
             'cancel_url' => 'required|url',
+            'token' => 'required|in:' . env("API_TOKEN",""),
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'token.in' => 'The token is incorrect'
+        ];
+    }
+
+    public function validationData()
+    {
+        return array_merge($this->all(), [
+            'token' => $this->header('token'),
+        ]);
+    }
+
+//    public function withValidator($validator)
+//    {
+//        // Access and validate headers here
+//        $validator->sometimes('token', 'required', function ($input) {
+//            // Access the header value using the request() method
+//            $token = request()->header('token');
+//
+//            // Add your validation logic based on the header value
+//            return $token === env("API_TOKEN");
+//        });
+//    }
 
     protected function failedValidation(Validator $validator)
     {
