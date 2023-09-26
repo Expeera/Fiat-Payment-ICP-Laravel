@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 
-class CreateSessionRequest extends FormRequest
+class RetrieveSessionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +26,6 @@ class CreateSessionRequest extends FormRequest
     {
         return [
             'secret_key' => 'required',
-            'currency' => 'required',
-            'unit_amount' => 'required',
-            'quantity' => 'required',
-            'success_url' => 'required|url',
-            'cancel_url' => 'required|url',
             'token' => 'required|in:' . env("API_TOKEN",""),
         ];
     }

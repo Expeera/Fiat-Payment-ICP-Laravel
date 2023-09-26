@@ -20,4 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('stripe')->group(function () {
     Route::post('create-session', [\App\Http\Controllers\Api\StripeController::class, "sessions"]);
+    Route::post('retrieve-session/{sessionId}', [\App\Http\Controllers\Api\StripeController::class, "retrieveSession"]);
 });
