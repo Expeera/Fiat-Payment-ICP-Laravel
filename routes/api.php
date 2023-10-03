@@ -22,3 +22,8 @@ Route::prefix('stripe')->group(function () {
     Route::post('create-session', [\App\Http\Controllers\Api\StripeController::class, "sessions"]);
     Route::post('retrieve-session/{sessionId}', [\App\Http\Controllers\Api\StripeController::class, "retrieveSession"]);
 });
+
+Route::prefix('paypal')->group(function () {
+    Route::post('create-order', [\App\Http\Controllers\Api\PaypalController::class, "createOrder"]);
+    Route::post('retrieve-session/{sessionId}', [\App\Http\Controllers\Api\StripeController::class, "retrieveSession"]);
+});
