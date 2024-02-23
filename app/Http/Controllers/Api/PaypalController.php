@@ -49,9 +49,15 @@ class PaypalController extends Controller
                 }
             }
 
-            return responseJson(true, "Success", [
-                'status' => $res['status'],
-            ], 200);
+            if($res['status'] == "COMPLETED"){
+                return responseJson(true, "Success", [
+                    'status' => $res['status'],
+                ], 200);
+            }else {
+                return responseJson(false, "The order is not complete", [], 500);
+            }
+
+
 
         } catch (\Exception $e) {
             return responseJson(false, $e->getMessage(), [], 500);
