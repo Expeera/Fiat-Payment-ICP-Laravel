@@ -123,6 +123,7 @@ class PaypalService
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_HTTPHEADER => array(
                 'Authorization: Bearer ' . $this->token,
+                'Content-Type: application/json'
             ),
         ));
 
@@ -140,7 +141,7 @@ class PaypalService
 
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->baseUrl . '/v2/checkout/orders/' . $orderId . '/capture',
+            CURLOPT_URL => $this->baseUrl . 'v2/checkout/orders/' . $orderId . '/capture',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -149,7 +150,8 @@ class PaypalService
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer ' . $this->token
+                'Authorization: Bearer ' . $this->token,
+                'Content-Type: application/json'
             ),
         ));
 
