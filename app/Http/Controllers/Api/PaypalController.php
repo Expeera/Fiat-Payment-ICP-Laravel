@@ -44,7 +44,6 @@ class PaypalController extends Controller
             }
             if ($res['status'] == "APPROVED") {
                 $res = $paypalService->captureOrder($request->get("order_id"));
-                dd($res);
                 if ($res['message'] ?? false) {
                     return responseJson(false, $res['message'], [], 422);
                 }
