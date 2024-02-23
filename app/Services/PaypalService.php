@@ -12,10 +12,12 @@ class PaypalService
     private $baseUrl = "https://api-m.sandbox.paypal.com/";
     private $clientId;
     private $clientSecret;
+    private $token;
 
 
     public function __construct($clientId, $clientSecret)
     {
+        $this->token = null;
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
     }
@@ -62,7 +64,7 @@ class PaypalService
     public function createOrder($data)
     {
 
-        $token = $this->generateAccessToken();
+        $this->token = $this->generateAccessToken();
 
         $postData = [
             'intent' => 'CAPTURE',
@@ -92,7 +94,7 @@ class PaypalService
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => json_encode($postData),
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer ' . $token,
+                'Authorization: Bearer ' . $this->token,
                 'Content-Type: application/json'
             ),
         ));
@@ -105,11 +107,13 @@ class PaypalService
         return json_decode($response, true);
     }
 
-    public function retrieveSession($sessionId)
+    public function retrieveOrder($orderId)
     {
+        $this->token = $this->token ?? $this->generateAccessToken();
+
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->baseUrl . '/checkout/sessions/' . $sessionId,
+            CURLOPT_URL => $this->baseUrl . 'v2/checkout/orders/' . $orderId,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -118,7 +122,36 @@ class PaypalService
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer ' . $this->secretKey,
+                'Authorization: Bearer ' . $this->token,
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+        curl_close($curl);
+
+        return json_decode($response, true);
+    }
+
+    public function captureOrder($orderId)
+    {
+        $this->token = $this->token ?? $this->generateAccessToken();
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $this->baseUrl . '/v2/checkout/orders/' . $orderId . '/capture',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer ' . $this->token,
+                'Content-Type: application/json'
             ),
         ));
 

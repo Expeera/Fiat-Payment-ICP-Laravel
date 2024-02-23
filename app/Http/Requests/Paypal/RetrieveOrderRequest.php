@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 
-class RetrieveSessionRequest extends FormRequest
+class RetrieveOrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,10 @@ class RetrieveSessionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'secret_key' => 'required',
+            'client_id' => 'required',
+            'client_secret' => 'required',
             'token' => 'required|in:' . env("API_TOKEN",""),
+            'order_id' => 'required'
         ];
     }
 
@@ -49,7 +51,7 @@ class RetrieveSessionRequest extends FormRequest
         $errors = $validator->errors()->first();
 
         throw new HttpResponseException(
-            responseJson(false, $errors , [] , JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
+            responseJson(false, $errors, [], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
         );
     }
 }

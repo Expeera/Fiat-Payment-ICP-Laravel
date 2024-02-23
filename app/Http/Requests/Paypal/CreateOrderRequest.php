@@ -28,6 +28,10 @@ class CreateOrderRequest extends FormRequest
             'client_id' => 'required',
             'client_secret' => 'required',
             'token' => 'required|in:' . env("API_TOKEN",""),
+            'currency' => 'required',
+            'amount' => 'required',
+            'success_url' => 'required|url',
+            'cancel_url' => 'required|url',
         ];
     }
 
