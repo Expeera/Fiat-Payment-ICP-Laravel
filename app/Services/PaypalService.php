@@ -137,7 +137,7 @@ class PaypalService
     public function captureOrder($orderId)
     {
         $this->token = $this->token ?? $this->generateAccessToken();
-dd($this->token);
+
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => $this->baseUrl . '/v2/checkout/orders/' . $orderId . '/capture',
@@ -149,8 +149,7 @@ dd($this->token);
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer ' . $this->token,
-                'Content-Type: application/json'
+                'Authorization: Bearer ' . $this->token
             ),
         ));
 
