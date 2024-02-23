@@ -110,7 +110,7 @@ class PaypalService
     public function retrieveOrder($orderId)
     {
         $this->token = $this->token ?? $this->generateAccessToken();
-dd($this->token);
+
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => $this->baseUrl . 'v2/checkout/orders/' . $orderId,
