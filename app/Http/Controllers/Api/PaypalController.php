@@ -38,11 +38,11 @@ class PaypalController extends Controller
 
             $paypalService = new PaypalService($request->get("client_id"), $request->get("client_secret"));
             $res = $paypalService->retrieveOrder($request->get("order_id"));
-dd($res);
+
             if ($res['message'] ?? false) {
                 return responseJson(false, $res['message'], [], 422);
             }
-
+            dd($res['status']);
             if ($res['status'] == "APPROVED") {
                 $res = $paypalService->captureOrder($request->get("order_id"));
                 if ($res['message'] ?? false) {
