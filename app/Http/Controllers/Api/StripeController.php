@@ -30,7 +30,7 @@ class StripeController extends Controller
                 return responseJson(false, $res['error']['message'], [], 422);
             }
 
-            Log::info("retuern success ");
+            Log::info("retuern success " . $res['id']);
 
 
             return responseJson(true, "Success", [
