@@ -7,6 +7,7 @@ use App\Http\Requests\Stripe\CreateSessionRequest;
 use App\Http\Requests\Stripe\RetrieveSessionRequest;
 use App\Services\StripeService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class StripeController extends Controller
 {
@@ -14,12 +15,23 @@ class StripeController extends Controller
     {
         try {
 
+            Log::info("Get Secret key");
             $stripe = new StripeService($request->get("secret_key"));
+            Log::info("Start to create session");
+
             $res = $stripe->createSession($request->toArray());
+            Log::info("End to create session");
+
+            Log::info("Check if there an error");
 
             if ($res['error'] ?? false) {
+                Log::info("retuern error ");
+
                 return responseJson(false, $res['error']['message'], [], 422);
             }
+
+            Log::info("retuern success ");
+
 
             return responseJson(true, "Success", [
                 'id' => $res['id'],
@@ -27,6 +39,8 @@ class StripeController extends Controller
             ], 200);
 
         } catch (\Exception $e) {
+            Log::info("retuern execption ");
+
             return responseJson(false, $e->getMessage(), [], 500);
         }
     }
