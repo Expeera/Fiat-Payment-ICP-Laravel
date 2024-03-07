@@ -11,6 +11,18 @@ use Illuminate\Support\Facades\Log;
 
 class StripeController extends Controller
 {
+
+    public function test(Request $request)
+    {
+        try {
+
+            return responseJson(true, "Success", ["test" => "testing"], 200);
+
+        } catch (\Exception $e) {
+            return responseJson(false, $e->getMessage(), [], 500);
+        }
+    }
+
     public function sessions(CreateSessionRequest $request)
     {
         try {

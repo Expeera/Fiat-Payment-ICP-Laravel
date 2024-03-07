@@ -27,3 +27,6 @@ Route::prefix('paypal')->group(function () {
     Route::post('create-order', [\App\Http\Controllers\Api\PaypalController::class, "createOrder"]);
     Route::post('retrieve-order', [\App\Http\Controllers\Api\PaypalController::class, "retrieveOrder"]);
 });
+
+Route::post('test', [\App\Http\Controllers\Api\StripeController::class, "test"]);
+
