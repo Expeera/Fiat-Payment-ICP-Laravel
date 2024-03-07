@@ -62,7 +62,7 @@ $data = $request->toArray();
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => $postData,
                 CURLOPT_HTTPHEADER => array(
-                    'Authorization: Bearer ' . $this->secretKey,
+                    'Authorization: Bearer ' . $request->get("secret_key"),
                     'Content-Type: application/x-www-form-urlencoded'
                 ),
             ));
