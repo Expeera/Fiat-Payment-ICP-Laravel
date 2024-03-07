@@ -27,6 +27,11 @@ class StripeController extends Controller
     {
         try {
 
+            return responseJson(true, "Success", [
+                'id' => "sadasdasdasdasdasd",
+                'url' => "http:sdsadsadasdasd",
+            ], 200);
+
             Log::info("Get Secret key");
             $stripe = new StripeService($request->get("secret_key"));
             Log::info("Start to create session");
