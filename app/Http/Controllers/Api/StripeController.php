@@ -35,14 +35,10 @@ class StripeController extends Controller
 
 
 
-            $res = $stripe->createSession($request->toArray());
+//            $res = $stripe->createSession($request->toArray());
             Log::info("End to create session");
 
-            return responseJson(true, "Success", [
-                'id' => "sadasdasdasdasdasd",
-                'url' => "http:sdsadsadasdasd",
-            ], 200);
-
+            $res["erorr"] = "asdasd";
             Log::info("Check if there an error");
 
             if ($res['error'] ?? false) {
