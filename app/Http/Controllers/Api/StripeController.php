@@ -25,37 +25,37 @@ class StripeController extends Controller
 
     public function sessions(CreateSessionRequest $request)
     {
-       // try {
+        // try {
 
-            Log::info("1- Get Secret key");
-            $stripe = new StripeService($request->get("secret_key"));
-            Log::info("2- Start to create session");
+        Log::info("1- Get Secret key");
+        $stripe = new StripeService($request->get("secret_key"));
+        Log::info("2- Start to create session");
 
-//            $res = $stripe->createSession($request->toArray());
-//            Log::info("3- End to create session");
-//
-//            Log::info("4- Check if there an error");
-//
-//            if ($res['error'] ?? false) {
-//                Log::info("5- retuern error ");
-//
-//                return responseJson(false, $res['error']['message'], [], 422);
-//            }
+        $res = $stripe->createSession($request->toArray());
+        Log::info("3- End to create session");
 
-//            Log::info("6- retuern success " . $res['id']);
+        Log::info("4- Check if there an error");
 
-        return responseJson(true, "Success", "Mohammed Shawwa", 200);
+        if ($res['error'] ?? false) {
+            Log::info("5- retuern error ");
 
-//        return responseJson(true, "Success", json_encode([
-//            'id' => $res['id'],
-//            'url' => $res['url'],
-//        ]), 200);
+            return responseJson(false, $res['error']['message'], [], 422);
+        }
 
-      /*  } catch (\Exception $e) {
-            Log::info("retuern execption ");
+        Log::info("6- retuern success " . $res['id']);
 
-            return responseJson(false, $e->getMessage(), [], 500);
-        }*/
+//        return responseJson(true, "Success", "Mohammed Shawwa", 200);
+
+        return responseJson(true, "Success", json_encode([
+            'id' => $res['id'],
+            'url' => $res['url'],
+        ]), 200);
+
+        /*  } catch (\Exception $e) {
+              Log::info("retuern execption ");
+
+              return responseJson(false, $e->getMessage(), [], 500);
+          }*/
     }
 
     public function retrieveSession($sessionId, RetrieveSessionRequest $request)
