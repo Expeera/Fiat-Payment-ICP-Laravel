@@ -44,7 +44,7 @@ class StripeController extends Controller
 
 //            Log::info("retuern success " . $res['id']);
 
-return $res['url'];
+return "Mohammed Shawwa";
 //            return responseJson(true, "Success", json_encode([
 //                'id' => $res['id'],
 //                'url' => $res['url'],
