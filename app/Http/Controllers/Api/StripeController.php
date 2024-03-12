@@ -31,7 +31,7 @@ class StripeController extends Controller
             $stripe = new StripeService($request->get("secret_key"));
             Log::info("Start to create session");
 
-            $res = $stripe->createSession($request->toArray());
+//            $res = $stripe->createSession($request->toArray());
             Log::info("End to create session");
 
             Log::info("Check if there an error");
