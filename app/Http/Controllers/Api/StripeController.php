@@ -31,18 +31,18 @@ class StripeController extends Controller
             $stripe = new StripeService($request->get("secret_key"));
             Log::info("2- Start to create session");
 
-            $res = $stripe->createSession($request->toArray());
-            Log::info("3- End to create session");
+//            $res = $stripe->createSession($request->toArray());
+//            Log::info("3- End to create session");
+//
+//            Log::info("4- Check if there an error");
+//
+//            if ($res['error'] ?? false) {
+//                Log::info("5- retuern error ");
+//
+//                return responseJson(false, $res['error']['message'], [], 422);
+//            }
 
-            Log::info("4- Check if there an error");
-
-            if ($res['error'] ?? false) {
-                Log::info("5- retuern error ");
-
-                return responseJson(false, $res['error']['message'], [], 422);
-            }
-
-            Log::info("6- retuern success " . $res['id']);
+//            Log::info("6- retuern success " . $res['id']);
 
         return responseJson(true, "Success", "Mohammed Shawwa", 200);
 
