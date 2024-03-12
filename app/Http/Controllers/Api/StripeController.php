@@ -25,7 +25,7 @@ class StripeController extends Controller
 
     public function sessions(CreateSessionRequest $request)
     {
-        try {
+       // try {
 
             Log::info("Get Secret key");
             $stripe = new StripeService($request->get("secret_key"));
@@ -36,11 +36,11 @@ class StripeController extends Controller
 
             Log::info("Check if there an error");
 
-            if ($res['error'] ?? false) {
-                Log::info("retuern error ");
-
-                return responseJson(false, $res['error']['message'], [], 422);
-            }
+//            if ($res['error'] ?? false) {
+//                Log::info("retuern error ");
+//
+//                return responseJson(false, $res['error']['message'], [], 422);
+//            }
 
             Log::info("retuern success " . $res['id']);
 
@@ -50,11 +50,11 @@ class StripeController extends Controller
                 'url' => $res['url'],
             ], 200);
 
-        } catch (\Exception $e) {
+      /*  } catch (\Exception $e) {
             Log::info("retuern execption ");
 
             return responseJson(false, $e->getMessage(), [], 500);
-        }
+        }*/
     }
 
     public function retrieveSession($sessionId, RetrieveSessionRequest $request)
