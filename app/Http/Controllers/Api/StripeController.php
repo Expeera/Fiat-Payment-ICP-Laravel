@@ -54,15 +54,15 @@ class StripeController extends Controller
 //            Log::info("6- retuern success " . $re);
 
 //        return responseJson(true, "Success", Random::generate(10), 200);
-            Log::info($invoiceNumberFromCache);
+//            Log::info($invoiceNumberFromCache);
 
             $r = explode(":-:", $invoiceNumberFromCache);
-            Log::info($r[0] . " shawwa " . $r[1]);
+//            Log::info($r[0] . " shawwa " . $r[1]);
 
-            return responseJson(true, "Success", json_encode([
+            return responseJson(true, "Success", [
                 'id' => $r[0],
                 'url' => $r[1],
-            ]), 200);
+            ], 200);
 
         } catch (\Exception $e) {
             Log::error($e->getMessage());
