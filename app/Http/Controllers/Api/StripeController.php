@@ -65,6 +65,7 @@ class StripeController extends Controller
             ]), 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return responseJson(false, $e->getMessage(), [], 500);
         }
     }
