@@ -25,37 +25,58 @@ class StripeController extends Controller
 
     public function sessions(CreateSessionRequest $request)
     {
-        // try {
+        try {
 
-        Log::info("1- Get Secret key");
-        $stripe = new StripeService($request->get("secret_key"));
-        Log::info("2- Start to create session");
+            Log::info("1- Get Secret key");
+            $stripe = new StripeService($request->get("secret_key"));
+            Log::info("2- Start to create session");
 
-        $res = $stripe->createSession($request->toArray());
-        Log::info("3- End to create session");
+            $res = $stripe->createSession($request->toArray());
+            Log::info("3- End to create session");
 
-        Log::info("4- Check if there an error");
+            Log::info("4- Check if there an error");
 
-        if ($res['error'] ?? false) {
-            Log::info("5- retuern error ");
+            if ($res['error'] ?? false) {
+                Log::info("5- retuern error ");
 
-            return responseJson(false, $res['error']['message'], [], 422);
-        }
+                return responseJson(false, $res['error']['message'], [], 422);
+            }
 
-        Log::info("6- retuern success " . $res['id']);
+            $invoiceNumber = $request->headers->get("invoice-number");
+
+            $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
+                "id" => "",
+                "url" => ""
+            ]));
+
+            $resCache = json_decode($invoiceNumberFromCache , true);
+            if(empty($resCache["id"]) ){
+                \Illuminate\Support\Facades\Cache::set($invoiceNumber , [
+                    "id" => $res['id'],
+                    "url" => $res['url'],
+                ]);
+            }
+
+            $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
+                "id" => "",
+                "url" => ""
+            ]));
+            $resCache = json_decode($invoiceNumberFromCache , true);
+
+            Log::info("6- retuern success " . $res['id']);
 
 //        return responseJson(true, "Success", "Mohammed Shawwa", 200);
 
-        return responseJson(true, "Success", json_encode([
-            'id' => $res['id'],
-            'url' => $res['url'],
-        ]), 200);
+            return responseJson(true, "Success", json_encode([
+                'id' => $resCache['id'],
+                'url' => $resCache['url'],
+            ]), 200);
 
-        /*  } catch (\Exception $e) {
-              Log::info("retuern execption ");
+        } catch (\Exception $e) {
+            Log::info("retuern execption ");
 
-              return responseJson(false, $e->getMessage(), [], 500);
-          }*/
+            return responseJson(false, $e->getMessage(), [], 500);
+        }
     }
 
     public function retrieveSession($sessionId, RetrieveSessionRequest $request)

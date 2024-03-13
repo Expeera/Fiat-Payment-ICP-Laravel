@@ -29,4 +29,42 @@ Route::prefix('paypal')->group(function () {
 });
 
 Route::post('test', [\App\Http\Controllers\Api\StripeController::class, "test"]);
+Route::get('cache', function (Request $request){
+    $invoiceNumber = $request->get("invoice-number");
+    echo("your invoice number: " . $invoiceNumber . "</br>");
+    $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
+        "id" => "",
+        "url" => ""
+    ]));
+    $invoiceNumberFromCacheAfterDecode = json_decode($invoiceNumberFromCache , true);
+
+//    echo($invoiceNumberFromCache. "</br>");
+//    if($invoiceNumberFromCacheAfterDecode['is_call_api'] == false) {
+
+        // excute stripe api
+
+        $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
+            "id" => "",
+            "url" => ""
+        ]));
+        $resCache = json_decode($invoiceNumberFromCache , true);
+        if(empty($resCache["id"]) ){
+            \Illuminate\Support\Facades\Cache::set($invoiceNumber , [
+                "is_call_api" => true,
+                "id" => "",
+                "url" => ""
+            ]);
+        }
+
+    $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
+        "id" => "",
+        "url" => ""
+    ]));
+    $resCache = json_decode($invoiceNumberFromCache , true);
+
+
+
+//        echo("Non from cache" . "</br>" );
+//    }
+});
 
