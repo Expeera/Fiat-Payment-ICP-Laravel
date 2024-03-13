@@ -17,7 +17,9 @@ class StripeController extends Controller
     {
         try {
 
-            return responseJson(true, "Success", ["test" => "testing"], 200);
+            $re = Random::generate(10);
+
+            return responseJson(true, "Success", $re, 200);
 
         } catch (\Exception $e) {
             return responseJson(false, $e->getMessage(), [], 500);
