@@ -56,7 +56,7 @@ class StripeController extends Controller
 //        return responseJson(true, "Success", Random::generate(10), 200);
 
             $r = explode(":-:", $invoiceNumber);
-            Log::info($r[0] . " => return " . $r[1]);
+            Log::info($r[0] . " shawwa " . $r[1]);
 
             return responseJson(true, "Success", json_encode([
                 'id' => $r[0],
