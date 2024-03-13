@@ -30,23 +30,14 @@ class StripeController extends Controller
     {
         try {
 
-            Log::info("1- Get Secret key");
             $stripe = new StripeService($request->get("secret_key"));
-            Log::info("2- Start to create session");
-
             $res = $stripe->createSession($request->toArray());
-            Log::info("3- End to create session");
-
-            Log::info("4- Check if there an error");
 
             if ($res['error'] ?? false) {
-                Log::info("5- retuern error ");
-
                 return responseJson(false, $res['error']['message'], [], 422);
             }
 
             $invoiceNumber = $request->headers->get("invoice-number");
-
             $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
                 "id" => "",
                 "url" => ""
@@ -66,7 +57,7 @@ class StripeController extends Controller
             ]));
             $resCache = json_decode($invoiceNumberFromCache , true);
 
-            Log::info("6- retuern success " . $resCache['id']);
+            Log::info($invoiceNumber . " => return " . $res['id']);
 //$re = Random::generate(10);
 //            Log::info("6- retuern success " . $re);
 
@@ -78,8 +69,6 @@ class StripeController extends Controller
             ]), 200);
 
         } catch (\Exception $e) {
-            Log::info("retuern execption ");
-
             return responseJson(false, $e->getMessage(), [], 500);
         }
     }
