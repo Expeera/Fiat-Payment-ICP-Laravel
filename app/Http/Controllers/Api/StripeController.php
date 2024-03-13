@@ -8,6 +8,7 @@ use App\Http\Requests\Stripe\RetrieveSessionRequest;
 use App\Services\StripeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Nette\Utils\Random;
 
 class StripeController extends Controller
 {
@@ -28,10 +29,10 @@ class StripeController extends Controller
         try {
 
             Log::info("1- Get Secret key");
-            $stripe = new StripeService($request->get("secret_key"));
+//            $stripe = new StripeService($request->get("secret_key"));
             Log::info("2- Start to create session");
 
-            $res = $stripe->createSession($request->toArray());
+//            $res = $stripe->createSession($request->toArray());
             Log::info("3- End to create session");
 
             Log::info("4- Check if there an error");
@@ -42,35 +43,37 @@ class StripeController extends Controller
                 return responseJson(false, $res['error']['message'], [], 422);
             }
 
-            $invoiceNumber = $request->headers->get("invoice-number");
+//            $invoiceNumber = $request->headers->get("invoice-number");
+//
+//            $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
+//                "id" => "",
+//                "url" => ""
+//            ]));
+//
+//            $resCache = json_decode($invoiceNumberFromCache , true);
+//            if(empty($resCache["id"]) ){
+//                \Illuminate\Support\Facades\Cache::set($invoiceNumber , [
+//                    "id" => $res['id'],
+//                    "url" => $res['url'],
+//                ]);
+//            }
 
-            $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
-                "id" => "",
-                "url" => ""
-            ]));
+//            $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
+//                "id" => "",
+//                "url" => ""
+//            ]));
+//            $resCache = json_decode($invoiceNumberFromCache , true);
 
-            $resCache = json_decode($invoiceNumberFromCache , true);
-            if(empty($resCache["id"]) ){
-                \Illuminate\Support\Facades\Cache::set($invoiceNumber , [
-                    "id" => $res['id'],
-                    "url" => $res['url'],
-                ]);
-            }
+//            Log::info("6- retuern success " . $res['id']);
+$re = Random::generate(10);
+            Log::info("6- retuern success " . $re);
 
-            $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
-                "id" => "",
-                "url" => ""
-            ]));
-            $resCache = json_decode($invoiceNumberFromCache , true);
+        return responseJson(true, "Success", Random::generate(10), 200);
 
-            Log::info("6- retuern success " . $res['id']);
-
-//        return responseJson(true, "Success", "Mohammed Shawwa", 200);
-
-            return responseJson(true, "Success", json_encode([
-                'id' => $resCache['id'],
-                'url' => $resCache['url'],
-            ]), 200);
+//            return responseJson(true, "Success", json_encode([
+//                'id' => $resCache['id'],
+//                'url' => $resCache['url'],
+//            ]), 200);
 
         } catch (\Exception $e) {
             Log::info("retuern execption ");
