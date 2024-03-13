@@ -38,34 +38,34 @@ class StripeController extends Controller
             }
 
             $invoiceNumber = $request->headers->get("invoice-number");
-//            $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
-//                "id" => "",
-//                "url" => ""
-//            ]));
-////
-//            $resCache = json_decode($invoiceNumberFromCache , true);
-//            if(empty($resCache["id"]) ){
-//                \Illuminate\Support\Facades\Cache::set($invoiceNumber , [
-//                    "id" => $res['id'],
-//                    "url" => $res['url'],
-//                ]);
-//            }
-//
-//            $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
-//                "id" => "",
-//                "url" => ""
-//            ]));
-//            $resCache = json_decode($invoiceNumberFromCache , true);
+            $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
+                "id" => "",
+                "url" => ""
+            ]));
 
-            Log::info($invoiceNumber . " => return " . $res['id']);
+            $resCache = json_decode($invoiceNumberFromCache, true);
+            if (empty($resCache["id"])) {
+                \Illuminate\Support\Facades\Cache::set($invoiceNumber, [
+                    "id" => $res['id'],
+                    "url" => $res['url'],
+                ]);
+            }
+
+            $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
+                "id" => "",
+                "url" => ""
+            ]));
+            $resCache = json_decode($invoiceNumberFromCache , true);
+
+            Log::info($invoiceNumber . " => return " . $resCache['id']);
 //$re = Random::generate(10);
 //            Log::info("6- retuern success " . $re);
 
 //        return responseJson(true, "Success", Random::generate(10), 200);
 
             return responseJson(true, "Success", json_encode([
-                'id' => $res['id'],
-                'url' => $res['url'],
+                'id' => $resCache['id'],
+                'url' => $resCache['url'],
             ]), 200);
 
         } catch (\Exception $e) {
