@@ -66,7 +66,7 @@ class StripeController extends Controller
             ]));
             $resCache = json_decode($invoiceNumberFromCache , true);
 
-//            Log::info("6- retuern success " . $res['id']);
+            Log::info("6- retuern success " . $resCache['id']);
 //$re = Random::generate(10);
 //            Log::info("6- retuern success " . $re);
 
