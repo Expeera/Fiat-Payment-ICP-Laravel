@@ -38,24 +38,24 @@ class StripeController extends Controller
             }
 
             $invoiceNumber = $request->headers->get("invoice-number");
-            $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
-                "id" => "",
-                "url" => ""
-            ]));
+//            $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
+//                "id" => "",
+//                "url" => ""
+//            ]));
+////
+//            $resCache = json_decode($invoiceNumberFromCache , true);
+//            if(empty($resCache["id"]) ){
+//                \Illuminate\Support\Facades\Cache::set($invoiceNumber , [
+//                    "id" => $res['id'],
+//                    "url" => $res['url'],
+//                ]);
+//            }
 //
-            $resCache = json_decode($invoiceNumberFromCache , true);
-            if(empty($resCache["id"]) ){
-                \Illuminate\Support\Facades\Cache::set($invoiceNumber , [
-                    "id" => $res['id'],
-                    "url" => $res['url'],
-                ]);
-            }
-
-            $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
-                "id" => "",
-                "url" => ""
-            ]));
-            $resCache = json_decode($invoiceNumberFromCache , true);
+//            $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
+//                "id" => "",
+//                "url" => ""
+//            ]));
+//            $resCache = json_decode($invoiceNumberFromCache , true);
 
             Log::info($invoiceNumber . " => return " . $res['id']);
 //$re = Random::generate(10);
@@ -64,8 +64,8 @@ class StripeController extends Controller
 //        return responseJson(true, "Success", Random::generate(10), 200);
 
             return responseJson(true, "Success", json_encode([
-                'id' => $resCache['id'],
-                'url' => $resCache['url'],
+                'id' => $res['id'],
+                'url' => $res['url'],
             ]), 200);
 
         } catch (\Exception $e) {
