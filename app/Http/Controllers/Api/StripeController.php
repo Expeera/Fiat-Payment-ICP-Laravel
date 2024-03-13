@@ -38,6 +38,7 @@ class StripeController extends Controller
             }
 
             $invoiceNumber = $request->headers->get("invoice-number");
+            Log::info($invoiceNumber);
             $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, json_encode([
                 "id" => "",
                 "url" => ""
