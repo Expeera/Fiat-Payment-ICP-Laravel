@@ -63,6 +63,9 @@ class PaypalController extends Controller
             Log::info("2-" . $res['status']);
 
             if($res['status'] == "COMPLETED"){
+
+                Log::info("result-" . $res['status']);
+
                 return responseJson(true, "Success", [
                     'status' => $res['status'],
                 ], 200);
