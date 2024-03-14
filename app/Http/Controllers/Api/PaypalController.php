@@ -7,6 +7,7 @@ use App\Http\Requests\Paypal\CreateOrderRequest;
 use App\Http\Requests\Paypal\RetrieveOrderRequest;
 use App\Services\PaypalService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PaypalController extends Controller
 {
@@ -50,12 +51,16 @@ class PaypalController extends Controller
             if ($res['message'] ?? false) {
                 return responseJson(false, $res['message'], [], 422);
             }
+            Log::info("1-" . $res['status']);
+
             if ($res['status'] == "APPROVED") {
                 $res = $paypalService->captureOrder($request->get("order_id"));
                 if ($res['message'] ?? false) {
                     return responseJson(false, $res['message'], [], 422);
                 }
             }
+
+            Log::info("2-" . $res['status']);
 
             if($res['status'] == "COMPLETED"){
                 return responseJson(true, "Success", [
