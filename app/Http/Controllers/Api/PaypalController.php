@@ -22,9 +22,17 @@ class PaypalController extends Controller
 
             $link = collect($res['links'])->where('rel', 'approve')->first()['href'] ?? '';
 
+            $invoiceNumber = $request->headers->get("invoice-number");
+            $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, "");
+            if (empty($invoiceNumberFromCache)) {
+                \Illuminate\Support\Facades\Cache::set($invoiceNumber, $res['id'] . ":-:" . $link);
+            }
+            $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, "");
+            $r = explode(":-:", $invoiceNumberFromCache);
+
             return responseJson(true, "Success", [
-                'id' => $res['id'],
-                'url' => $link,
+                'id' => $r[0],
+                'url' => $r[1],
             ], 200);
 
         } catch (\Exception $e) {
@@ -56,7 +64,6 @@ class PaypalController extends Controller
             }else {
                 return responseJson(false, "The order is not complete", [], 500);
             }
-
 
 
         } catch (\Exception $e) {

@@ -38,26 +38,12 @@ class StripeController extends Controller
             }
 
             $invoiceNumber = $request->headers->get("invoice-number");
-            Log::info($invoiceNumber);
             $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, "");
-
-//            $resCache = json_decode($invoiceNumberFromCache, true);
             if (empty($invoiceNumberFromCache)) {
                 \Illuminate\Support\Facades\Cache::set($invoiceNumber, $res['id'] . ":-:" . $res["url"]);
             }
-
             $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, "");
-//            $resCache = json_decode($invoiceNumberFromCache , true);
-
-            Log::info($invoiceNumber . " => return " . $invoiceNumberFromCache);
-//$re = Random::generate(10);
-//            Log::info("6- retuern success " . $re);
-
-//        return responseJson(true, "Success", Random::generate(10), 200);
-//            Log::info($invoiceNumberFromCache);
-
             $r = explode(":-:", $invoiceNumberFromCache);
-//            Log::info($r[0] . " shawwa " . $r[1]);
 
             return responseJson(true, "Success", [
                 'id' => $r[0],
@@ -65,7 +51,6 @@ class StripeController extends Controller
             ], 200);
 
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
             return responseJson(false, $e->getMessage(), [], 500);
         }
     }
