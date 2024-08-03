@@ -26,7 +26,7 @@ class PaypalController extends Controller
             $invoiceNumber = $request->headers->get("invoice-number");
             $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, "");
             if (empty($invoiceNumberFromCache)) {
-                \Illuminate\Support\Facades\Cache::set($invoiceNumber, $res['id'] . ":-:" . $link, 300); // 300 seconds = 5 minutes
+                \Illuminate\Support\Facades\Cache::set($invoiceNumber, $res['id'] . ":-:" . $link, 120); // 120 seconds = 2 minutes
             }
             $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, "");
             $r = explode(":-:", $invoiceNumberFromCache);
