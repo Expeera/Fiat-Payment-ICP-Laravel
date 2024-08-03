@@ -40,7 +40,7 @@ class StripeController extends Controller
             $invoiceNumber = $request->headers->get("invoice-number");
             $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, "");
             if (empty($invoiceNumberFromCache)) {
-                \Illuminate\Support\Facades\Cache::set($invoiceNumber, $res['id'] . ":-:" . $res["url"]);
+                \Illuminate\Support\Facades\Cache::set($invoiceNumber, $res['id'] . ":-:" . $res["url"], 300); // 300 seconds = 5 minutes
             }
             $invoiceNumberFromCache = \Illuminate\Support\Facades\Cache::get($invoiceNumber, "");
             $r = explode(":-:", $invoiceNumberFromCache);
